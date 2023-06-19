@@ -31,9 +31,13 @@
                 <a href="?page=index.php"><button type="button" class="btn btn-secondary">Home</button></a>
 
 
+
+                <!-- Si add n'est pas défini alours on ajoute le bouton ajouter des données -->
                 <?php if (!isset($_GET['add'])) {
                     echo '<a href="index.php?add"> <button type="button" class="btn btn-primary btn">Ajouter des données</button></a>';
                 } ?>
+
+                <!-- Si $_SESSION['table'] est défini alors affiche la liste -->
                 <?php
                 if (isset($_SESSION['table']))
                     include_once './includes/ul.inc.php';
@@ -45,9 +49,13 @@
 
 
             <section class="col-md-9 mt-3">
+
+            <!-- Si add est défini alors on ajoute le formulaire -->
                 <?php
                 if (isset($_GET['add'])) {
                     include_once './includes/form.inc.html';
+
+                    // Si les données sont valider alors on initialise un tableau $table
                 } elseif (isset($_POST['form'])) {
                     $table = [
                         'prenom_user' => $_POST['prenom_user'],
@@ -63,6 +71,8 @@
                     } elseif (!is_numeric($_POST['taille_user'])) {
                         echo "<h2>la taille doit être un nombre</h2>";
                         session_destroy();
+
+                        // Si les vérifications sont bonnes on stock les données dans la session ['table] et on affiche un message
                     } else {
                         $_SESSION['table'] = $table;
                         echo '<div class="alert alert-dismissible alert-success">
@@ -96,7 +106,7 @@
                         echo "<h3> ===> Construction d'une phrase après MAJ du tableau</h3>";
                         $nom_user_maj = strtoupper($_SESSION['table']['nom_user']);
                         echo genre($tab) .  " " . $_SESSION['table']['prenom_user'] . " " . $nom_user_maj . "<br>";
-                        echo "j'ai " . $_SESSION['table']['age_user'] . " ans et je mesure "  . $_SESSION['table']['taille_user'] . " m.";
+                        echo "j'ai " . $_SESSION['table']['age_user'] . " ans et je mesure "  . $_SESSION['table']['taille_user'] . " m. <br> <br>";
 
                         echo "<h3> ===> Affichage d'une virgule à la place du point pour la taille</h3>";
 

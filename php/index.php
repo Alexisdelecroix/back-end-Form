@@ -17,9 +17,9 @@
 
 
 <body>
-    <?php
-    include './includes/header.inc.html'
-    ?>
+
+    <?php include './includes/header.inc.html' ?>
+
     <div class="container-fluid">
         <div class="row">
 
@@ -31,15 +31,6 @@
                 <a href="?page=index.php"><button type="button" class="btn btn-secondary">Home</button></a>
 
 
-
-                <!-- Si add n'est pas défini alours on ajoute le bouton ajouter des données -->
-                <?php if (!isset($_GET['add'])) {
-                    echo '<a href="index.php?add"> <button type="button" class="btn btn-primary btn">Ajouter des données</button></a>';
-                } ?>
-
-                <?php if (!isset($_GET['addmore'])) {
-                    echo ' <a href="index.php?addmore"> <button type="button" class="btn btn-light">Ajouter plus de données</button></a>';
-                } ?>
                 <!-- Si $_SESSION['table'] est défini alors affiche la liste -->
                 <?php
                 if (isset($_SESSION['table']))
@@ -52,6 +43,14 @@
 
 
             <section class="col-md-9 mt-3">
+
+                <?php if (!isset($_GET['add'])) {
+                    echo '<a href="index.php?add"> <button type="button" class="btn btn-primary btn">Ajouter des données</button></a>';
+                } ?>
+
+                <?php if (!isset($_GET['addmore'])) {
+                    echo ' <a href="index.php?addmore"> <button type="button" class="btn btn-light">Ajouter plus de données</button></a>';
+                } ?>
 
                 <!-- Si add est défini alors on ajoute le formulaire -->
                 <?php
@@ -84,9 +83,6 @@
                     }
                 }
 
-                if (isset($_GET['addmore'])) {
-                    include_once './includes/form2.inc.php';
-                }
 
                 if (isset($_GET['debugging'])) {
                     echo '<h2> Débogage </h2>';
@@ -153,10 +149,106 @@
                 }
                 ?>
 
+                <?php if (isset($_GET['addmore'])) {
+                    include_once './includes/form2.inc.php';
+                } elseif (isset($_POST['form2'])) {
+                    $table2['prenom_user'] =  $_POST['prenom_user'];
+                    $table2['nom_user'] = $_POST['nom_user'];
+                    $table2['age_user'] = $_POST['age_user'];
+                    $table2['taille_user'] = $_POST['taille_user'];
+                    $table2['genre_user'] = $_POST['genre_user'];
+                    $table2['couleur_user'] = $_POST['couleur_user'];
+                    $table2['date_user'] = $_POST['date_user'];
+
+                    if (isset($_POST['HTML'])) {
+                        $table2['HTML'] =  $_POST['HTML'];
+                    }
+
+                    if (isset($_POST['CSS'])) {
+                        $table2['CSS'] =  $_POST['CSS'];
+                    }
+
+                    if (isset($_POST['JavaScript'])) {
+                        $table2['JavaScript'] =  $_POST['JavaScript'];
+                    }
+
+                    if (isset($_POST['PHP'])) {
+                        $table2['PHP'] =  $_POST['PHP'];
+                    }
+
+                    if (isset($_POST['MYSQL'])) {
+                        $table2['MYSQL'] =  $_POST['MYSQL'];
+                    }
+
+                    if (isset($_POST['Bootstrap'])) {
+                        $table2['Bootstrap'] =  $_POST['Bootstrap'];
+                    }
+
+                    if (isset($_POST['Symfony'])) {
+                        $table2['Symfony'] =  $_POST['Symfony'];
+                    }
+
+                    if (isset($_POST['React'])) {
+                        $table2['React'] =  $_POST['React'];
+                    }
+
+
+
+                    if (isset($_FILES)) {
+                        echo '<pre>';
+                        // print_r($_POST);
+                        print_r($_FILES);
+                        // var_dump($_FILES);
+                        echo '</pre>';
+
+                        $tmpName = $_FILES['img']['tmp_name'];
+                        $name = $_FILES['img']['name'];
+                        $size = $_FILES['img']['size'];
+                        $error = $_FILES['img']['error'];
+
+                        $table2[$_FILES['img']['tmp_name']] = $tmpName;
+
+                        $Extension = explode('.',  $name);
+                        $extensionLower = strtolower(end($Extension));
+
+                        $extensions = ['jpg', 'png'];
+
+                        $maxSize = 200000;
+
+                        if (in_array($extensionLower, $extensions) && $size <= $maxSize) {
+                            move_uploaded_file($tmpName, './uploaded/' . $name);
+                        } else {
+                            echo "L'extension est mauvaise";
+                        }
+
+                        
+
+                        // $table2[$_FILES['tmp_name']] =  $tmpName;
+                        // $table2[$_FILES['name']] =  $name;
+                        // $table2[$_FILES['size']] =  $size;
+                        // $table2[$_FILES['error']] =  $error;
+
+
+                        $table2[$_FILES['img']['tmp_name']] = array(
+                            'tmp_name' => $tmpName,
+                            'name' => $name,
+                            'size' => $size,
+                            'error' => $error
+                        );
+
+                        $table2['img'] = './uploaded/' . $name;
+                    }
+                    $_SESSION['table'] = $table2;
+                    echo '<div class="alert alert-dismissible alert-success">
+                    <strong class="d-flex justify-content-center">Données sauvegardées</strong>
+                    </div>';
+                }
+                ?>
+
             </section>
         </div>
     </div>
-    <?php
-    include './includes/footer.inc.html'
-    ?>
+
+    <?php include './includes/footer.inc.html' ?>
+
 </body>

@@ -10,7 +10,7 @@
     include './includes/head.inc.html'
     ?>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqylQvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/vapor/bootstrap.min.css">
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/morph/bootstrap.min.css"> -->
 </head>
@@ -56,22 +56,108 @@
                 <?php
                 if (isset($_GET['add'])) {
                     include_once './includes/form.inc.html';
+                }
 
-                    // Si les données sont valider alors on initialise un tableau $table
-                } elseif (isset($_POST['form'])) {
-                    $table = [
-                        'prenom_user' => $_POST['prenom_user'],
-                        'nom_user' => $_POST['nom_user'],
-                        'age_user' => $_POST['age_user'],
-                        'taille_user' => $_POST['taille_user'],
-                        'genre_user' => $_POST['genre_user'],
+                if (isset($_GET['addmore'])) {
+                    include './includes/form2.inc.php';
+                } elseif (isset($_POST['form']) || (isset($_POST['form2']))) {
 
-                    ];
+                    $table['prenom_user'] =  $_POST['prenom_user'];
+                    $table['nom_user'] = $_POST['nom_user'];
+                    $table['age_user'] = $_POST['age_user'];
+                    $table['taille_user'] = $_POST['taille_user'];
+                    $table['genre_user'] = $_POST['genre_user'];
+
+                    if (isset($_POST['couleur_user'])) {
+                        $table['couleur_user'] = $_POST['couleur_user'];
+                    }
+
+                    if (isset($_POST['date_user'])) {
+                        $table['date_user'] = $_POST['date_user'];
+                    }
+
+                    if (isset($_POST['HTML'])) {
+                        $table['HTML'] =  $_POST['HTML'];
+                    }
+
+                    if (isset($_POST['CSS'])) {
+                        $table['CSS'] =  $_POST['CSS'];
+                    }
+
+                    if (isset($_POST['JavaScript'])) {
+                        $table['JavaScript'] =  $_POST['JavaScript'];
+                    }
+
+                    if (isset($_POST['PHP'])) {
+                        $table['PHP'] =  $_POST['PHP'];
+                    }
+
+                    if (isset($_POST['MYSQL'])) {
+                        $table['MYSQL'] =  $_POST['MYSQL'];
+                    }
+
+                    if (isset($_POST['Bootstrap'])) {
+                        $table['Bootstrap'] =  $_POST['Bootstrap'];
+                    }
+
+                    if (isset($_POST['Symfony'])) {
+                        $table['Symfony'] =  $_POST['Symfony'];
+                    }
+
+                    if (isset($_POST['React'])) {
+                        $table['React'] =  $_POST['React'];
+                    }
+
+                    if (isset($_FILES)) {
+                        echo '<pre>';
+                        // print_r($_POST);
+                        print_r($_FILES);
+                        // var_dump($_FILES);
+                        echo '</pre>';
+
+                        $tmpName = $_FILES['img']['tmp_name'];
+                        $name = $_FILES['img']['name'];
+                        $size = $_FILES['img']['size'];
+                        $error = $_FILES['img']['error'];
+
+                        $Extension = explode('.',  $name);
+                        $extensionLower = strtolower(end($Extension));
+
+                        $extensions = ['jpg', 'png'];
+
+                        $maxSize = 200000;
+
+                        if (in_array($extensionLower, $extensions) && $size <= $maxSize) {
+                            move_uploaded_file($tmpName, './uploaded/' . $name);
+                        } else {
+                            echo "L'extension est mauvaise";
+                        }
+
+
+
+                        // $table[$_FILES['tmp_name']] =  $tmpName;
+                        // $table[$_FILES['name']] =  $name;
+                        // $table[$_FILES['size']] =  $size;
+                        // $table[$_FILES['error']] =  $error;
+
+                
+
+
+                        $table[$_FILES['img']['name']] = array(
+                            'tmp_name' => $tmpName,
+                            'name' => $name,
+                            'size' => $size,
+                            'error' => $error
+                        );
+                    }
+                    // $table['img'] = './uploaded/' . $name;
+
+
                     if (!is_numeric($_POST['age_user'])) {
-                        echo "<h2>L'age doit être un nombre</h2>";
+                        echo "<h>L'age doit être un nombre</h>";
                         session_destroy();
                     } elseif (!is_numeric($_POST['taille_user'])) {
-                        echo "<h2>la taille doit être un nombre</h2>";
+                        echo "<h>la taille doit être un nombre</h>";
                         session_destroy();
 
                         // Si les vérifications sont bonnes on stock les données dans la session ['table] et on affiche un message
@@ -85,7 +171,7 @@
 
 
                 if (isset($_GET['debugging'])) {
-                    echo '<h2> Débogage </h2>';
+                    echo '<h1> Débogage </h1>';
                     echo '<pre>';
                     print_r($_SESSION['table']);
                     echo '<pre>';
@@ -117,14 +203,14 @@
                     echo genre($tab) . " " . $_SESSION['table']['prenom_user'] . " " . $nom_user_maj . "<br>
                         j'ai " . $_SESSION['table']['age_user'] . " ans et je mesure " . $taille_user_maj . "m.";
                 } elseif (isset($_GET['loop'])) {
-                    echo "<h2> ===> Lecture du tableau à l'aide d'une boucle foreach</h2>
+                    echo "<h1> ===> Lecture du tableau à l'aide d'une boucle foreach</h1>
                     <br> <br>";
                     $n = 0;
                     foreach ($_SESSION['table'] as $key => $value) {
                         echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
                     }
                 } elseif (isset($_GET['function'])) {
-                    echo "<h2> ===> J'utilise ma function Readtable()</h2>
+                    echo "<h1> ===> J'utilise ma function Readtable()</h1>
                     <br> <br>";
                     function readTable()
                     {
@@ -146,102 +232,6 @@
                     <meta http-equiv="refresh" content="1.3; URL=/index.php">
 
                 <?php
-                }
-                ?>
-
-                <?php if (isset($_GET['addmore'])) {
-                    include_once './includes/form2.inc.php';
-                } elseif (isset($_POST['form2'])) {
-                    $table2['prenom_user'] =  $_POST['prenom_user'];
-                    $table2['nom_user'] = $_POST['nom_user'];
-                    $table2['age_user'] = $_POST['age_user'];
-                    $table2['taille_user'] = $_POST['taille_user'];
-                    $table2['genre_user'] = $_POST['genre_user'];
-                    $table2['couleur_user'] = $_POST['couleur_user'];
-                    $table2['date_user'] = $_POST['date_user'];
-
-                    if (isset($_POST['HTML'])) {
-                        $table2['HTML'] =  $_POST['HTML'];
-                    }
-
-                    if (isset($_POST['CSS'])) {
-                        $table2['CSS'] =  $_POST['CSS'];
-                    }
-
-                    if (isset($_POST['JavaScript'])) {
-                        $table2['JavaScript'] =  $_POST['JavaScript'];
-                    }
-
-                    if (isset($_POST['PHP'])) {
-                        $table2['PHP'] =  $_POST['PHP'];
-                    }
-
-                    if (isset($_POST['MYSQL'])) {
-                        $table2['MYSQL'] =  $_POST['MYSQL'];
-                    }
-
-                    if (isset($_POST['Bootstrap'])) {
-                        $table2['Bootstrap'] =  $_POST['Bootstrap'];
-                    }
-
-                    if (isset($_POST['Symfony'])) {
-                        $table2['Symfony'] =  $_POST['Symfony'];
-                    }
-
-                    if (isset($_POST['React'])) {
-                        $table2['React'] =  $_POST['React'];
-                    }
-
-
-
-                    if (isset($_FILES)) {
-                        echo '<pre>';
-                        // print_r($_POST);
-                        print_r($_FILES);
-                        // var_dump($_FILES);
-                        echo '</pre>';
-
-                        $tmpName = $_FILES['img']['tmp_name'];
-                        $name = $_FILES['img']['name'];
-                        $size = $_FILES['img']['size'];
-                        $error = $_FILES['img']['error'];
-
-                        $table2[$_FILES['img']['tmp_name']] = $tmpName;
-
-                        $Extension = explode('.',  $name);
-                        $extensionLower = strtolower(end($Extension));
-
-                        $extensions = ['jpg', 'png'];
-
-                        $maxSize = 200000;
-
-                        if (in_array($extensionLower, $extensions) && $size <= $maxSize) {
-                            move_uploaded_file($tmpName, './uploaded/' . $name);
-                        } else {
-                            echo "L'extension est mauvaise";
-                        }
-
-                        
-
-                        // $table2[$_FILES['tmp_name']] =  $tmpName;
-                        // $table2[$_FILES['name']] =  $name;
-                        // $table2[$_FILES['size']] =  $size;
-                        // $table2[$_FILES['error']] =  $error;
-
-
-                        $table2[$_FILES['img']['tmp_name']] = array(
-                            'tmp_name' => $tmpName,
-                            'name' => $name,
-                            'size' => $size,
-                            'error' => $error
-                        );
-
-                        $table2['img'] = './uploaded/' . $name;
-                    }
-                    $_SESSION['table'] = $table2;
-                    echo '<div class="alert alert-dismissible alert-success">
-                    <strong class="d-flex justify-content-center">Données sauvegardées</strong>
-                    </div>';
                 }
                 ?>
 

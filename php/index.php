@@ -37,6 +37,9 @@
                     echo '<a href="index.php?add"> <button type="button" class="btn btn-primary btn">Ajouter des données</button></a>';
                 } ?>
 
+                <?php if (!isset($_GET['addmore'])) {
+                    echo ' <a href="index.php?addmore"> <button type="button" class="btn btn-light">Ajouter plus de données</button></a>';
+                } ?>
                 <!-- Si $_SESSION['table'] est défini alors affiche la liste -->
                 <?php
                 if (isset($_SESSION['table']))
@@ -50,7 +53,7 @@
 
             <section class="col-md-9 mt-3">
 
-            <!-- Si add est défini alors on ajoute le formulaire -->
+                <!-- Si add est défini alors on ajoute le formulaire -->
                 <?php
                 if (isset($_GET['add'])) {
                     include_once './includes/form.inc.html';
@@ -79,61 +82,65 @@
                         <strong class="d-flex justify-content-center">Données sauvegardées</strong>
                         </div>';
                     }
-                } 
+                }
 
-                    if (isset($_GET['debugging'])) {
-                        echo '<h2> Débogage </h2>';
-                        echo '<pre>';
-                        print_r($_SESSION['table']);
-                        echo '<pre>';
-                    } elseif (isset($_GET['concatenation'])) {
+                if (isset($_GET['addmore'])) {
+                    include_once './includes/form2.inc.php';
+                }
 
-                        $tab = $_SESSION['table'];
-                        function genre($tab)
-                        {
-                            if ($tab['genre_user'] === "Homme") {
-                                echo "Mr";
-                            } else {
-                                echo "Mme";
-                            }
+                if (isset($_GET['debugging'])) {
+                    echo '<h2> Débogage </h2>';
+                    echo '<pre>';
+                    print_r($_SESSION['table']);
+                    echo '<pre>';
+                } elseif (isset($_GET['concatenation'])) {
+
+                    $tab = $_SESSION['table'];
+                    function genre($tab)
+                    {
+                        if ($tab['genre_user'] === "Homme") {
+                            echo "Mr";
+                        } else {
+                            echo "Mme";
                         }
-                        echo "<h1 class='d-flex justify-content-center' >Concaténation</h1> <br>
+                    }
+                    echo "<h1 class='d-flex justify-content-center' >Concaténation</h1> <br>
                             <h3> ===> Construction d'une phrase avec le contenu du tableau</h3>";
 
-                        echo genre($tab) .  " " . $_SESSION['table']['prenom_user'] . " " .  $_SESSION['table']['nom_user'];
-                        echo " <br> j'ai " . $_SESSION['table']['age_user'] . " ans et je mesure "  . $_SESSION['table']['taille_user'] . " m. <br> <br>";
+                    echo genre($tab) .  " " . $_SESSION['table']['prenom_user'] . " " .  $_SESSION['table']['nom_user'];
+                    echo " <br> j'ai " . $_SESSION['table']['age_user'] . " ans et je mesure "  . $_SESSION['table']['taille_user'] . " m. <br> <br>";
 
-                        echo "<h3> ===> Construction d'une phrase après MAJ du tableau</h3>";
-                        $nom_user_maj = strtoupper($_SESSION['table']['nom_user']);
-                        echo genre($tab) .  " " . $_SESSION['table']['prenom_user'] . " " . $nom_user_maj . "<br>";
-                        echo "j'ai " . $_SESSION['table']['age_user'] . " ans et je mesure "  . $_SESSION['table']['taille_user'] . " m. <br> <br>";
+                    echo "<h3> ===> Construction d'une phrase après MAJ du tableau</h3>";
+                    $nom_user_maj = strtoupper($_SESSION['table']['nom_user']);
+                    echo genre($tab) .  " " . $_SESSION['table']['prenom_user'] . " " . $nom_user_maj . "<br>";
+                    echo "j'ai " . $_SESSION['table']['age_user'] . " ans et je mesure "  . $_SESSION['table']['taille_user'] . " m. <br> <br>";
 
-                        echo "<h3> ===> Affichage d'une virgule à la place du point pour la taille</h3>";
+                    echo "<h3> ===> Affichage d'une virgule à la place du point pour la taille</h3>";
 
-                        $taille_user_maj = str_replace(".", ",", $_SESSION['table']['taille_user']);
-                        echo genre($tab) . " " . $_SESSION['table']['prenom_user'] . " " . $nom_user_maj . "<br>
+                    $taille_user_maj = str_replace(".", ",", $_SESSION['table']['taille_user']);
+                    echo genre($tab) . " " . $_SESSION['table']['prenom_user'] . " " . $nom_user_maj . "<br>
                         j'ai " . $_SESSION['table']['age_user'] . " ans et je mesure " . $taille_user_maj . "m.";
-                    } elseif (isset($_GET['loop'])) {
-                        echo "<h2> ===> Lecture du tableau à l'aide d'une boucle foreach</h2>
+                } elseif (isset($_GET['loop'])) {
+                    echo "<h2> ===> Lecture du tableau à l'aide d'une boucle foreach</h2>
                     <br> <br>";
+                    $n = 0;
+                    foreach ($_SESSION['table'] as $key => $value) {
+                        echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
+                    }
+                } elseif (isset($_GET['function'])) {
+                    echo "<h2> ===> J'utilise ma function Readtable()</h2>
+                    <br> <br>";
+                    function readTable()
+                    {
                         $n = 0;
                         foreach ($_SESSION['table'] as $key => $value) {
                             echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
                         }
-                    } elseif (isset($_GET['function'])) {
-                        echo "<h2> ===> J'utilise ma function Readtable()</h2>
-                    <br> <br>";
-                        function readTable()
-                        {
-                            $n = 0;
-                            foreach ($_SESSION['table'] as $key => $value) {
-                                echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
-                            }
-                        }
-                        readTable();
-                    } elseif (isset($_GET['del'])) {
-                        session_destroy();
-                        echo '
+                    }
+                    readTable();
+                } elseif (isset($_GET['del'])) {
+                    session_destroy();
+                    echo '
                     <div class="alert alert-dismissible alert-info">
                         <strong class="d-flex justify-content-center">Données supprimées</strong>
                     </div>
@@ -143,7 +150,7 @@
                     <meta http-equiv="refresh" content="1.3; URL=/index.php">
 
                 <?php
-                    }
+                }
                 ?>
 
             </section>

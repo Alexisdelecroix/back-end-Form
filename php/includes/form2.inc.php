@@ -1,6 +1,6 @@
 <h1 class="d-flex justify-content-center">Ajouter plus de données</h1>
 
-
+<!-- <div class="container-fluid"> -->
 <form class="row" action="../index.php" method="post" enctype="multipart/form-data">
 
 
@@ -47,50 +47,50 @@
     <fieldset class="col-md-4 ml-5">
         <legend class="mt-4">Connaissances</legend>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="HTML" id="flexCheckDefault" name="HTML">
-            <label class="form-check-label" for="flexCheckDefault">
+            <input class="form-check-input" type="checkbox" value="HTML" id="flexCheckDefault1" name="HTML">
+            <label class="form-check-label" for="flexCheckDefault1">
                 HTML
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="CSS" id="flexCheckChecked" name="CSS">
-            <label class="form-check-label" for="flexCheckChecked">
+            <input class="form-check-input" type="checkbox" value="CSS" id="flexCheckChecked2" name="CSS">
+            <label class="form-check-label" for="flexCheckChecked2">
                 CSS
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="JavaScript" id="flexCheckDefault" name="JavaScript">
-            <label class="form-check-label" for="flexCheckDefault">
+            <input class="form-check-input" type="checkbox" value="JavaScript" id="flexCheckDefault3" name="JavaScript">
+            <label class="form-check-label" for="flexCheckDefault3">
                 JavaScript
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="PHP" id="flexCheckDefault" name="PHP">
-            <label class="form-check-label" for="flexCheckDefault">
+            <input class="form-check-input" type="checkbox" value="PHP" id="flexCheckDefault4" name="PHP">
+            <label class="form-check-label" for="flexCheckDefault4">
                 PHP
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="MySQL" id="flexCheckDefault" name="MYSQL">
-            <label class="form-check-label" for="flexCheckDefault">
+            <input class="form-check-input" type="checkbox" value="MySQL" id="flexCheckDefault5" name="MYSQL">
+            <label class="form-check-label" for="flexCheckDefault5">
                 MYSQL
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="Boostrap" id="flexCheckDefault" name="Bootstrap">
-            <label class="form-check-label" for="flexCheckDefault">
+            <input class="form-check-input" type="checkbox" value="Boostrap" id="flexCheckDefault6" name="Bootstrap">
+            <label class="form-check-label" for="flexCheckDefault6">
                 Bootstrap
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="Symfony" id="flexCheckDefault" name="Symfony">
-            <label class="form-check-label" for="flexCheckDefault">
+            <input class="form-check-input" type="checkbox" value="Symfony" id="flexCheckDefault7" name="Symfony">
+            <label class="form-check-label" for="flexCheckDefault7">
                 Symfony
             </label>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="React" id="flexCheckDefault" name="React">
-            <label class="form-check-label" for="flexCheckDefault">
+            <input class="form-check-input" type="checkbox" value="React" id="flexCheckDefault8" name="React">
+            <label class="form-check-label" for="flexCheckDefault8">
                 React
             </label>
         </div>
@@ -117,3 +117,4 @@
 
 
 </form>
+<!-- </div> -->

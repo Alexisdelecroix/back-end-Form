@@ -27,22 +27,14 @@ session_start()
 
 
             <nav class="col-md-3 mt-3">
-
-
-
                 <a href="?page=index.php"><button type="button" class="btn btn-secondary">Home</button></a>
-
-
                 <!-- Si $_SESSION['table'] est défini alors affiche la liste -->
                 <?php
                 if (isset($_SESSION['table']))
                     include_once './includes/ul.inc.php';
 
                 ?>
-
             </nav>
-
-
 
             <section class="col-md-9 mt-3">
 
@@ -69,6 +61,7 @@ session_start()
                     $table['age_user'] = $_POST['age_user'];
                     $table['taille_user'] = $_POST['taille_user'];
                     $table['genre_user'] = $_POST['genre_user'];
+
 
                     if (isset($_POST['couleur_user'])) {
                         $table['couleur_user'] = $_POST['couleur_user'];
@@ -119,6 +112,7 @@ session_start()
 
                         // Récupèrer les informations spécifiques du fichier.
                         $tmpName = $_FILES['img']['tmp_name'];
+                        $type = $_FILES['img']['type'];
                         $name = $_FILES['img']['name'];
                         $size = $_FILES['img']['size'];
                         $error = $_FILES['img']['error'];
@@ -140,6 +134,7 @@ session_start()
 
                         $table['img'] = array(
                             'tmp_name' => $tmpName,
+                            'type' => $type,
                             'name' => $name,
                             'size' => $size,
                             'error' => $error
@@ -201,8 +196,8 @@ session_start()
                     $n = 0;
                     foreach ($_SESSION['table'] as $key => $value) {
                         if ($key != 'img') {
-                        echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
-                        } else{
+                            echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
+                        } else {
                             echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient <br>";
                             echo "<img class='mw-100' src='./uploaded/" . $value['name'] . "' alt='Image " . $value['name'] . "'><br><br>";
                         }
@@ -216,11 +211,11 @@ session_start()
                         foreach ($_SESSION['table'] as $key => $value) {
                             if ($key != 'img') {
                                 echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
-                                } else{
-                                    echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient <br>";
-                                    echo "<img class='mw-100' src='./uploaded/" . $value['name'] . "' alt='Image " . $value['name'] . "'><br><br>";
-                                }
+                            } else {
+                                echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient <br>";
+                                echo "<img class='mw-100' src='./uploaded/" . $value['name'] . "' alt='Image " . $value['name'] . "'><br><br>";
                             }
+                        }
                     }
                     readTable();
                 } elseif (isset($_GET['del'])) {

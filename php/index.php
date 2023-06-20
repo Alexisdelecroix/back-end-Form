@@ -1,4 +1,6 @@
-<?php session_start() ?>
+<?php
+session_start()
+?>
 
 
 
@@ -20,7 +22,7 @@
 
     <?php include './includes/header.inc.html' ?>
 
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
 
 
@@ -143,7 +145,7 @@
                 
 
 
-                        $table[$_FILES['img']['name']] = array(
+                        $table['img'] = array(
                             'tmp_name' => $tmpName,
                             'name' => $name,
                             'size' => $size,
@@ -205,10 +207,17 @@
                 } elseif (isset($_GET['loop'])) {
                     echo "<h1> ===> Lecture du tableau à l'aide d'une boucle foreach</h1>
                     <br> <br>";
+
                     $n = 0;
                     foreach ($_SESSION['table'] as $key => $value) {
-                        echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
+                        if($key != 'img') {
+                            echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
+                        }
+                        else {
+                            echo '<img class="mw-100" src="./uploaded/' . $value['name'] . '"/>';
+                        }
                     }
+
                 } elseif (isset($_GET['function'])) {
                     echo "<h1> ===> J'utilise ma function Readtable()</h1>
                     <br> <br>";

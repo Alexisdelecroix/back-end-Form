@@ -117,11 +117,13 @@ session_start()
                         // var_dump($_FILES);
                         echo '</pre>';
 
+                        // Récupèrer les informations spécifiques du fichier.
                         $tmpName = $_FILES['img']['tmp_name'];
                         $name = $_FILES['img']['name'];
                         $size = $_FILES['img']['size'];
                         $error = $_FILES['img']['error'];
 
+                        // On extrait l'extension du fichier avec la méthode explode et on la convertie en minuscules
                         $Extension = explode('.',  $name);
                         $extensionLower = strtolower(end($Extension));
 
@@ -129,13 +131,12 @@ session_start()
 
                         $maxSize = 200000;
 
+                        // Si l'extension et la taille sont bonne alors on uploaded le fichier dans le dossier uploaded
                         if (in_array($extensionLower, $extensions) && $size <= $maxSize) {
                             move_uploaded_file($tmpName, './uploaded/' . $name);
                         } else {
-                            echo "L'extension est mauvaise";
+                            echo "L'extension ou la taille est mauvaise";
                         }
-
-
 
                         // $table[$_FILES['tmp_name']] =  $tmpName;
                         // $table[$_FILES['name']] =  $name;
@@ -152,8 +153,7 @@ session_start()
                             'error' => $error
                         );
                     }
-                    // $table['img'] = './uploaded/' . $name;
-
+                    // $table['img'] = './uploaded/pcportable.jpg' ;
 
                     if (!is_numeric($_POST['age_user'])) {
                         echo "<h>L'age doit être un nombre</h>";
@@ -170,7 +170,6 @@ session_start()
                         </div>';
                     }
                 }
-
 
                 if (isset($_GET['debugging'])) {
                     echo '<h1> Débogage </h1>';
@@ -210,14 +209,8 @@ session_start()
 
                     $n = 0;
                     foreach ($_SESSION['table'] as $key => $value) {
-                        if($key != 'img') {
-                            echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
-                        }
-                        else {
-                            echo '<img class="mw-100" src="./uploaded/' . $value['name'] . '"/>';
-                        }
+                        echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
                     }
-
                 } elseif (isset($_GET['function'])) {
                     echo "<h1> ===> J'utilise ma function Readtable()</h1>
                     <br> <br>";
@@ -225,6 +218,7 @@ session_start()
                     {
                         $n = 0;
                         foreach ($_SESSION['table'] as $key => $value) {
+                            
                             echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
                         }
                     }

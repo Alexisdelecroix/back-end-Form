@@ -115,11 +115,13 @@
                         // var_dump($_FILES);
                         echo '</pre>';
 
+                        // Récupèrer les informations spécifiques du fichier.
                         $tmpName = $_FILES['img']['tmp_name'];
                         $name = $_FILES['img']['name'];
                         $size = $_FILES['img']['size'];
                         $error = $_FILES['img']['error'];
 
+                        // On extrait l'extension du fichier avec la méthode explode et on la convertie en minuscules
                         $Extension = explode('.',  $name);
                         $extensionLower = strtolower(end($Extension));
 
@@ -127,22 +129,22 @@
 
                         $maxSize = 200000;
 
+                        // Si l'extension et la taille sont bonne alors on uploaded le fichier dans le dossier uploaded
                         if (in_array($extensionLower, $extensions) && $size <= $maxSize) {
                             move_uploaded_file($tmpName, './uploaded/' . $name);
                         } else {
-                            echo "L'extension est mauvaise";
+                            echo "L'extension ou la taille est mauvaise";
                         }
-
-
 
                         // $table[$_FILES['tmp_name']] =  $tmpName;
                         // $table[$_FILES['name']] =  $name;
                         // $table[$_FILES['size']] =  $size;
                         // $table[$_FILES['error']] =  $error;
 
-                
+                        // On stock les informations dans le tableau ($table)
 
-
+                        
+                        
                         $table[$_FILES['img']['name']] = array(
                             'tmp_name' => $tmpName,
                             'name' => $name,
@@ -150,8 +152,7 @@
                             'error' => $error
                         );
                     }
-                    // $table['img'] = './uploaded/' . $name;
-
+                    // $table['img'] = './uploaded/pcportable.jpg' ;
 
                     if (!is_numeric($_POST['age_user'])) {
                         echo "<h>L'age doit être un nombre</h>";
@@ -168,7 +169,6 @@
                         </div>';
                     }
                 }
-
 
                 if (isset($_GET['debugging'])) {
                     echo '<h1> Débogage </h1>';
@@ -206,9 +206,18 @@
                     echo "<h1> ===> Lecture du tableau à l'aide d'une boucle foreach</h1>
                     <br> <br>";
                     $n = 0;
-                    foreach ($_SESSION['table'] as $key => $value) {
-                        echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
+                    if (empty($table['img'])) {
+                        foreach ($_SESSION['table'] as $key => $value) {
+                            echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
+                        } 
+                    } else {
+                        foreach ($_SESSION['table'] as $key => $value) {
+                            echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
+                        }
+                        echo "<img src='./uploaded/" . $name . "' alt='Image " . $name . "'><br><br>";
                     }
+
+                    
                 } elseif (isset($_GET['function'])) {
                     echo "<h1> ===> J'utilise ma function Readtable()</h1>
                     <br> <br>";
@@ -216,6 +225,7 @@
                     {
                         $n = 0;
                         foreach ($_SESSION['table'] as $key => $value) {
+                            
                             echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
                         }
                     }

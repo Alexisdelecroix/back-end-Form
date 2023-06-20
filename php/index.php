@@ -138,14 +138,6 @@ session_start()
                             echo "L'extension ou la taille est mauvaise";
                         }
 
-                        // $table[$_FILES['tmp_name']] =  $tmpName;
-                        // $table[$_FILES['name']] =  $name;
-                        // $table[$_FILES['size']] =  $size;
-                        // $table[$_FILES['error']] =  $error;
-
-                
-
-
                         $table['img'] = array(
                             'tmp_name' => $tmpName,
                             'name' => $name,
@@ -153,7 +145,6 @@ session_start()
                             'error' => $error
                         );
                     }
-                    // $table['img'] = './uploaded/pcportable.jpg' ;
 
                     if (!is_numeric($_POST['age_user'])) {
                         echo "<h>L'age doit être un nombre</h>";
@@ -209,7 +200,12 @@ session_start()
 
                     $n = 0;
                     foreach ($_SESSION['table'] as $key => $value) {
+                        if ($key != 'img') {
                         echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
+                        } else{
+                            echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient <br>";
+                            echo "<img class='mw-100' src='./uploaded/" . $value['name'] . "' alt='Image " . $value['name'] . "'><br><br>";
+                        }
                     }
                 } elseif (isset($_GET['function'])) {
                     echo "<h1> ===> J'utilise ma function Readtable()</h1>
@@ -218,9 +214,13 @@ session_start()
                     {
                         $n = 0;
                         foreach ($_SESSION['table'] as $key => $value) {
-                            
-                            echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
-                        }
+                            if ($key != 'img') {
+                                echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
+                                } else{
+                                    echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient <br>";
+                                    echo "<img class='mw-100' src='./uploaded/" . $value['name'] . "' alt='Image " . $value['name'] . "'><br><br>";
+                                }
+                            }
                     }
                     readTable();
                 } elseif (isset($_GET['del'])) {

@@ -103,12 +103,14 @@ session_start()
                         $table['React'] =  $_POST['React'];
                     }
 
-                    if (isset($_FILES)) {
-                        echo '<pre>';
+
+
+                    if (isset($_FILES['img'])) {
+                        // echo '<pre>';
                         // print_r($_POST);
-                        print_r($_FILES);
+                        // print_r($_FILES);
                         // var_dump($_FILES);
-                        echo '</pre>';
+                        // echo '</pre>';
 
                         // Récupèrer les informations spécifiques du fichier.
                         $tmpName = $_FILES['img']['tmp_name'];

@@ -1,4 +1,4 @@
-<h1 class="d-flex justify-content-center">Ajouter plus de données</h1>
+ <h1 class="d-flex justify-content-center">Ajouter plus de données</h1>
 
 <!-- <div class="container-fluid"> -->
 <form class="row" action="../index.php" method="post" enctype="multipart/form-data">

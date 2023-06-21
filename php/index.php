@@ -153,7 +153,7 @@ session_start()
                         // Si les vérifications sont bonnes on stock les données dans la session ['table] et on affiche un message
                     } else {
                         $_SESSION['table'] = $table;
-                        echo '<div class="alert alert-dismissible alert-success">
+                        echo ' <div class="alert alert-dismissible alert-success mt-3">
                         <strong class="d-flex justify-content-center">Données sauvegardées</strong>
                         </div>';
                     }
@@ -201,7 +201,7 @@ session_start()
                             echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
                         } else {
                             echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient <br>";
-                            echo "<img class='mw-100' src='./uploaded/" . $value['name'] . "' alt='Image " . $value['name'] . "'><br><br>";
+                            echo "<img class='mw-100 mt-2' src='./uploaded/" . $value['name'] . "' alt='Image " . $value['name'] . "'><br><br>";
                         }
                     }
                 } elseif (isset($_GET['function'])) {
@@ -215,7 +215,7 @@ session_start()
                                 echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
                             } else {
                                 echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient <br>";
-                                echo "<img class='mw-100' src='./uploaded/" . $value['name'] . "' alt='Image " . $value['name'] . "'><br><br>";
+                                echo "<img class='mw-100 mt-2' src='./uploaded/" . $value['name'] . "' alt='Image " . $value['name'] . "'><br><br>";
                             }
                         }
                     }
@@ -223,7 +223,7 @@ session_start()
                 } elseif (isset($_GET['del'])) {
                     session_destroy();
                     echo '
-                    <div class="alert alert-dismissible alert-info">
+                    <div class="alert alert-dismissible alert-info mt-3">
                         <strong class="d-flex justify-content-center">Données supprimées</strong>
                     </div>
                     ';

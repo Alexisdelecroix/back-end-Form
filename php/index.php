@@ -39,7 +39,7 @@ session_start()
             <section class="col-md-9 mt-3">
 
                 <?php if (!isset($_GET['add'])) {
-                    echo '<a href="index.php?add"> <button type="button" class="btn btn-primary btn">Ajouter des données</button></a>';
+                    echo '<a href="index.php?add"> <button type="button" class="btn btn-primary btn me-3">Ajouter des données</button></a>';
                 } ?>
 
                 <?php if (!isset($_GET['addmore'])) {

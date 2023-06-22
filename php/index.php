@@ -147,7 +147,7 @@ session_start()
 
                         $extensions = ['jpg', 'png'];
 
-                        $maxSize = 0;
+                        $maxSize = 2000000;
 
                         // Si l'extension et la taille sont bonne alors on uploaded le fichier dans le dossier uploaded
                         if (in_array($extensionLower, $extensions) && $size <= $maxSize) {
@@ -219,7 +219,7 @@ session_start()
                             echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
                         } else {
                             echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient <br>";
-                            echo "<img class='mw-100 mt-2' src='./uploaded/" . $value['name'] . "' alt='Image " . $value['name'] . "'><br><br>";
+                            echo "<img class='w-50 mt-2' src='./uploaded/" . $value['name'] . "' alt='Image " . $value['name'] . "'><br><br>";
                         }
                     }
                 } elseif (isset($_GET['function'])) {
@@ -233,7 +233,7 @@ session_start()
                                 echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient " . $value . "<br>";
                             } else {
                                 echo "à la ligne n°" . $n++ . " correspond la clé " . $key . " et contient <br>";
-                                echo "<img class='mw-100 mt-2' src='./uploaded/" . $value['name'] . "' alt='Image " . $value['name'] . "'><br><br>";
+                                echo "<img class='w-50 mt-2' src='./uploaded/" . $value['name'] . "' alt='Image " . $value['name'] . "'><br><br>";
                             }
                         }
                     }

@@ -12,7 +12,7 @@ session_start()
     include './includes/head.inc.html'
     ?>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqylQvZ6jIW3" crossorigin="anonymous">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqylQvZ6jIW3" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/vapor/bootstrap.min.css">
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/morph/bootstrap.min.css"> -->
 </head>
@@ -38,13 +38,12 @@ session_start()
 
             <section class="col-md-9 mt-3">
 
-                <?php if (!isset($_GET['add'])) {
+                <?php
+                if (!isset($_GET['add']) && (!isset($_GET['addmore']))) {
                     echo '<a href="index.php?add"> <button type="button" class="btn btn-primary btn me-3">Ajouter des données</button></a>';
-                } ?>
-
-                <?php if (!isset($_GET['addmore'])) {
                     echo ' <a href="index.php?addmore"> <button type="button" class="btn btn-light">Ajouter plus de données</button></a>';
-                } ?>
+                }
+                ?>
 
                 <!-- Si add est défini alors on ajoute le formulaire -->
                 <?php
@@ -54,8 +53,31 @@ session_start()
 
                 if (isset($_GET['addmore'])) {
                     include './includes/form2.inc.php';
-                } elseif (isset($_POST['form']) || (isset($_POST['form2']))) {
+                } elseif (isset($_POST['form'])) {
 
+                    $table['prenom_user'] =  $_POST['prenom_user'];
+                    $table['nom_user'] = $_POST['nom_user'];
+                    $table['age_user'] = $_POST['age_user'];
+                    $table['taille_user'] = $_POST['taille_user'];
+                    $table['genre_user'] = $_POST['genre_user'];
+
+                    if (!is_numeric($_POST['age_user'])) {
+                        echo "<h>L'age doit être un nombre</h>";
+                        session_destroy();
+                    } elseif (!is_numeric($_POST['taille_user'])) {
+                        echo "<h>la taille doit être un nombre</h>";
+                        session_destroy();
+
+                        // Si les vérifications sont bonnes on stock les données dans la session ['table] et on affiche un message
+                    } else {
+                        $_SESSION['table'] = $table;
+                        echo ' <div class="alert alert-dismissible alert-success mt-3">
+                        <strong class="d-flex justify-content-center">Données sauvegardées</strong>
+                        </div>';
+                    }
+                }
+
+                if (isset($_POST['form2'])) {
                     $table['prenom_user'] =  $_POST['prenom_user'];
                     $table['nom_user'] = $_POST['nom_user'];
                     $table['age_user'] = $_POST['age_user'];
@@ -125,37 +147,33 @@ session_start()
 
                         $extensions = ['jpg', 'png'];
 
-                        $maxSize = 200000;
+                        $maxSize = 20000000;
 
                         // Si l'extension et la taille sont bonne alors on uploaded le fichier dans le dossier uploaded
                         if (in_array($extensionLower, $extensions) && $size <= $maxSize) {
                             move_uploaded_file($tmpName, './uploaded/' . $name);
+
+                            $table['img'] = array(
+                                'tmp_name' => $tmpName,
+                                'type' => $type,
+                                'name' => $name,
+                                'size' => $size,
+                                'error' => $error
+                            );
+                            $_SESSION['table'] = $table;
+                            echo ' <div class="alert alert-dismissible alert-success mt-3">
+                            <strong class="d-flex justify-content-center">Données sauvegardées</strong>
+                            </div>';
+
                         } else {
-                            echo "L'extension ou la taille est mauvaise";
+                            if (!in_array($extensionLower, $extensions)) {
+                                echo ' <br> <div class="d-flex justify-content-center"><button type="button" class="btn btn-danger mt-3 p-4">Attention ! L\'extension est mauvaise ! </button></div>';
+                            } elseif ($size >= $maxSize) {
+                                echo ' <br>  <div class="d-flex justify-content-center"><button type="button" class="btn btn-danger mt-3 p-4">Attention ! La taille de l\'image est trop lourde ! 2MO MAXIMUM </button></div>';
+                            } elseif ($error != 0) {
+                                echo ' <br>  <div class="d-flex justify-content-center"><button type="button" class="btn btn-danger mt-3 p-4">Attention ! Il y a une erreur !  </button></div>';
+                            }
                         }
-
-                        $table['img'] = array(
-                            'tmp_name' => $tmpName,
-                            'type' => $type,
-                            'name' => $name,
-                            'size' => $size,
-                            'error' => $error
-                        );
-                    }
-
-                    if (!is_numeric($_POST['age_user'])) {
-                        echo "<h>L'age doit être un nombre</h>";
-                        session_destroy();
-                    } elseif (!is_numeric($_POST['taille_user'])) {
-                        echo "<h>la taille doit être un nombre</h>";
-                        session_destroy();
-
-                        // Si les vérifications sont bonnes on stock les données dans la session ['table] et on affiche un message
-                    } else {
-                        $_SESSION['table'] = $table;
-                        echo ' <div class="alert alert-dismissible alert-success mt-3">
-                        <strong class="d-flex justify-content-center">Données sauvegardées</strong>
-                        </div>';
                     }
                 }
 
@@ -233,6 +251,12 @@ session_start()
 
                 <?php
                 }
+                //  else{
+                //     if (!isset($_GET['add']) && (!isset($_GET['addmore']))) {
+                //     echo '<a href="index.php?add"> <button type="button" class="btn btn-primary btn me-3">Ajouter des données</button></a>';
+                //     echo ' <a href="index.php?addmore"> <button type="button" class="btn btn-light">Ajouter plus de données</button></a>';
+                //     }
+                // }
                 ?>
 
             </section>

@@ -147,7 +147,7 @@ session_start()
 
                         $extensions = ['jpg', 'png'];
 
-                        $maxSize = 20000000;
+                        $maxSize = 0;
 
                         // Si l'extension et la taille sont bonne alors on uploaded le fichier dans le dossier uploaded
                         if (in_array($extensionLower, $extensions) && $size <= $maxSize) {
